@@ -67,15 +67,19 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  to="/dashboard"
+                  to="/"
+                  onClick={()=>scrollTo(0,0)}
+
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
-                  Dashboard
+                  Home
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/projects"
+                  to="/activeProject"
+                  onClick={()=>scrollTo(0,0)}
+                  
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Active Projects
@@ -84,6 +88,8 @@ const Footer = () => {
               <li>
                 <Link
                   to="/technology"
+                  onClick={()=>scrollTo(0,0)}
+
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Technology
@@ -91,20 +97,14 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="/about"
+                  to="/aboutUs"
+                  onClick={()=>scrollTo(0,0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   About Us
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/resources"
-                  className="text-gray-600 hover:text-cyan-600 text-sm transition"
-                >
-                  Resources
-                </Link>
-              </li>
+         
             </ul>
           </div>
 
@@ -115,35 +115,30 @@ const Footer = () => {
               <li>
                 <Link
                   to="/research"
+                  onClick={()=>scrollTo(0,0)}
+
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
-                  Research Papers
+                  Research 
                 </Link>
               </li>
+            
               <li>
-                <Link
-                  to="/case-studies"
-                  className="text-gray-600 hover:text-cyan-600 text-sm transition"
-                >
-                  Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/gallery"
+                <a
+                  href="https://acresofice.com/case-study/"
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Site Map
-                </Link>
+                </a>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/partnerships"
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Partnerships
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <a
                   href="https://milaap.org/fundraisers/hial"

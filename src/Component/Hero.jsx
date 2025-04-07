@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Hero = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+  const { waterStored, navigate } = useContext(AppContext);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6 mt-10 md:mt-10">
-      <div className="flex flex-col sm:flex-row">
+      <div className="flex flex-col md:flex-row">
         {/* Content side */}
-        <div className="w-full sm:w-1/2 p-6">
-          <div className="flex items-center mb-2">
+        <div className="w-full md:w-1/2 p-6">
+          <div className="flex items-center mb-2 2xl:mb-20 xl:mb-10">
             <div className="w-2 h-10 bg-cyan-500 mr-3"></div>
             <h2 className="font-medium text-gray-600 text-sm">
               Dashboard Overview
@@ -22,14 +24,24 @@ const Hero = () => {
           </h1>
 
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <div className="bg-blue-50 p-3 rounded-md">
+            <div
+              onClick={() => navigate("/stored")}
+              className="bg-blue-100 border border-gray-300 cursor-pointer p-3 rounded-md"
+            >
               <p className="text-xs text-gray-500">Water Stored</p>
-              <p className="text-xl font-bold text-blue-700">14.2M Gallons</p>
+              <p className="text-xl font-bold text-blue-700">
+                {waterStored >= 1000000
+                  ? (waterStored / 1000000).toFixed(1) + "M L"
+                  : waterStored + " L"}
+              </p>
             </div>
-            <div className="bg-cyan-50 p-3 rounded-md border hover:bg-cyan-100 border-gray-300">
+            <div
+              onClick={() => navigate("/locations")}
+              className="bg-cyan-50 p-3 cursor-pointer rounded-md border hover:bg-cyan-100 border-gray-300"
+            >
               <p className="text-xs text-gray-500">Active Sites</p>
               <button
-                onClick={() => navigate("/locations")} // Redirect to locations page
+                // Redirect to locations page
                 className="text-xl font-bold text-cyan-700  cursor-pointer"
               >
                 8 Locations
@@ -43,7 +55,7 @@ const Hero = () => {
           </p>
 
           <button
-            onClick={() => navigate("/about")}
+            onClick={() => navigate("/aboutIceStupa")}
             className="py-2 px-6 bg-cyan-500 text-white text-sm font-medium rounded-md hover:bg-cyan-600 transition duration-200"
           >
             More About Ice Stupa
@@ -51,16 +63,14 @@ const Hero = () => {
         </div>
 
         {/* Image side */}
-        <div className="w-full sm:w-1/2 relative">
+        <div className="w-full md:w-1/2 relative">
           <img
             src={assets.iceStupa1}
             className="w-full h-full object-cover"
             alt="Ice Stupa installation"
           />
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-            <p className="text-white text-sm">
-              Ladakh Region, Himalayan Mountains
-            </p>
+            <p className="text-white text-sm">Ice Stupa, Ladakh Region</p>
           </div>
         </div>
       </div>

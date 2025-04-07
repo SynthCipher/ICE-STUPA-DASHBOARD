@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   MapPin,
@@ -12,6 +12,7 @@ import {
   ToggleLeft,
   ToggleRight,
   Layers,
+  Lock,
 } from "lucide-react";
 import {
   LineChart,
@@ -24,8 +25,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { locationData } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
 
 const LocationDetail = () => {
+  const { token, navigate } = useContext(AppContext);
   const { locationId } = useParams();
   const [location, setLocation] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
@@ -372,195 +375,213 @@ const LocationDetail = () => {
               </div>
             )}
 
-            {activeTab === "control" && (
-              <div className="bg-white rounded-xl shadow p-6">
-                <h2 className="text-2xl font-semibold mb-6">
-                  Sensor Control Panel
-                </h2>
-                <div className="text-sm text-gray-500 mb-6">
-                  Toggle sensors on/off and configure monitoring settings
-                </div>
-
-                <div className="space-y-6">
-                  {/* Temperature Sensor Control */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="p-2 bg-cyan-100 rounded-lg mr-4">
-                          <ThermometerSnowflake
-                            size={24}
-                            className="text-cyan-700"
-                          />
-                        </div>
-                        <div>
-                          <h3 className="font-medium">Temperature Sensor</h3>
-                          <p className="text-sm text-gray-500">
-                            Monitors ice formation and ambient conditions
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => toggleSensor("temperature")}
-                        className="flex items-center"
-                      >
-                        {sensorStatuses.temperature ? (
-                          <ToggleRight size={32} className="text-green-600" />
-                        ) : (
-                          <ToggleLeft size={32} className="text-gray-400" />
-                        )}
-                      </button>
-                    </div>
-
-                    {sensorStatuses.temperature && (
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Sampling Rate
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Every 30 minutes</option>
-                              <option>Every hour</option>
-                              <option>Every 3 hours</option>
-                              <option>Every 6 hours</option>
-                            </select>
-                          </div>
-                          <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Alert Threshold (°C)
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Below -15°C</option>
-                              <option>Below -10°C</option>
-                              <option>Above 0°C</option>
-                              <option>Above 5°C</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+            {token ? (
+              activeTab === "control" && (
+                <div className="bg-white rounded-xl shadow p-6">
+                  <h2 className="text-2xl font-semibold mb-6">
+                    Sensor Control Panel
+                  </h2>
+                  <div className="text-sm text-gray-500 mb-6">
+                    Toggle sensors on/off and configure monitoring settings
                   </div>
 
-                  {/* Water Flow Sensor Control */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="p-2 bg-cyan-100 rounded-lg mr-4">
-                          <Droplet size={24} className="text-cyan-700" />
+                  <div className="space-y-6">
+                    {/* Temperature Sensor Control */}
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="p-2 bg-cyan-100 rounded-lg mr-4">
+                            <ThermometerSnowflake
+                              size={24}
+                              className="text-cyan-700"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="font-medium">Temperature Sensor</h3>
+                            <p className="text-sm text-gray-500">
+                              Monitors ice formation and ambient conditions
+                            </p>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-medium">Water Flow Sensor</h3>
-                          <p className="text-sm text-gray-500">
-                            Tracks water volume and flow rates
-                          </p>
-                        </div>
+                        <button
+                          onClick={() => toggleSensor("temperature")}
+                          className="flex items-center"
+                        >
+                          {sensorStatuses.temperature ? (
+                            <ToggleRight size={32} className="text-green-600" />
+                          ) : (
+                            <ToggleLeft size={32} className="text-gray-400" />
+                          )}
+                        </button>
                       </div>
-                      <button
-                        onClick={() => toggleSensor("waterFlow")}
-                        className="flex items-center"
-                      >
-                        {sensorStatuses.waterFlow ? (
-                          <ToggleRight size={32} className="text-green-600" />
-                        ) : (
-                          <ToggleLeft size={32} className="text-gray-400" />
-                        )}
-                      </button>
+
+                      {sensorStatuses.temperature && (
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Sampling Rate
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Every 30 minutes</option>
+                                <option>Every hour</option>
+                                <option>Every 3 hours</option>
+                                <option>Every 6 hours</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Alert Threshold (°C)
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Below -15°C</option>
+                                <option>Below -10°C</option>
+                                <option>Above 0°C</option>
+                                <option>Above 5°C</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {sensorStatuses.waterFlow && (
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Measurement Interval
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Every hour</option>
-                              <option>Every 2 hours</option>
-                              <option>Every 6 hours</option>
-                              <option>Every 12 hours</option>
-                            </select>
+                    {/* Water Flow Sensor Control */}
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="p-2 bg-cyan-100 rounded-lg mr-4">
+                            <Droplet size={24} className="text-cyan-700" />
                           </div>
                           <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Flow Rate Alert
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Below 10 L/min</option>
-                              <option>Below 5 L/min</option>
-                              <option>Above 50 L/min</option>
-                              <option>Above 100 L/min</option>
-                            </select>
+                            <h3 className="font-medium">Water Flow Sensor</h3>
+                            <p className="text-sm text-gray-500">
+                              Tracks water volume and flow rates
+                            </p>
                           </div>
                         </div>
+                        <button
+                          onClick={() => toggleSensor("waterFlow")}
+                          className="flex items-center"
+                        >
+                          {sensorStatuses.waterFlow ? (
+                            <ToggleRight size={32} className="text-green-600" />
+                          ) : (
+                            <ToggleLeft size={32} className="text-gray-400" />
+                          )}
+                        </button>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Solar Panel Sensor Control */}
-                  <div className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <div className="p-2 bg-cyan-100 rounded-lg mr-4">
-                          <Battery size={24} className="text-cyan-700" />
+                      {sensorStatuses.waterFlow && (
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Measurement Interval
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Every hour</option>
+                                <option>Every 2 hours</option>
+                                <option>Every 6 hours</option>
+                                <option>Every 12 hours</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Flow Rate Alert
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Below 10 L/min</option>
+                                <option>Below 5 L/min</option>
+                                <option>Above 50 L/min</option>
+                                <option>Above 100 L/min</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                        <div>
-                          <h3 className="font-medium">Solar Power Sensor</h3>
-                          <p className="text-sm text-gray-500">
-                            Monitors energy generation and battery status
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => toggleSensor("solarPanel")}
-                        className="flex items-center"
-                      >
-                        {sensorStatuses.solarPanel ? (
-                          <ToggleRight size={32} className="text-green-600" />
-                        ) : (
-                          <ToggleLeft size={32} className="text-gray-400" />
-                        )}
-                      </button>
+                      )}
                     </div>
 
-                    {sensorStatuses.solarPanel && (
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Data Collection
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Every 15 minutes</option>
-                              <option>Every 30 minutes</option>
-                              <option>Every hour</option>
-                              <option>Every 2 hours</option>
-                            </select>
+                    {/* Solar Panel Sensor Control */}
+                    <div className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="p-2 bg-cyan-100 rounded-lg mr-4">
+                            <Battery size={24} className="text-cyan-700" />
                           </div>
                           <div>
-                            <label className="text-xs text-gray-500 block mb-1">
-                              Battery Level Alert
-                            </label>
-                            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                              <option>Below 20%</option>
-                              <option>Below 10%</option>
-                              <option>Below 5%</option>
-                            </select>
+                            <h3 className="font-medium">Solar Power Sensor</h3>
+                            <p className="text-sm text-gray-500">
+                              Monitors energy generation and battery status
+                            </p>
                           </div>
                         </div>
+                        <button
+                          onClick={() => toggleSensor("solarPanel")}
+                          className="flex items-center"
+                        >
+                          {sensorStatuses.solarPanel ? (
+                            <ToggleRight size={32} className="text-green-600" />
+                          ) : (
+                            <ToggleLeft size={32} className="text-gray-400" />
+                          )}
+                        </button>
                       </div>
-                    )}
+
+                      {sensorStatuses.solarPanel && (
+                        <div className="mt-4 pt-4 border-t border-gray-100">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Data Collection
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Every 15 minutes</option>
+                                <option>Every 30 minutes</option>
+                                <option>Every hour</option>
+                                <option>Every 2 hours</option>
+                              </select>
+                            </div>
+                            <div>
+                              <label className="text-xs text-gray-500 block mb-1">
+                                Battery Level Alert
+                              </label>
+                              <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                                <option>Below 20%</option>
+                                <option>Below 10%</option>
+                                <option>Below 5%</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex justify-end space-x-3">
+                    <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
+                      Reset to Defaults
+                    </button>
+                    <button className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
+                      Save Configuration
+                    </button>
                   </div>
                 </div>
-
-                <div className="mt-6 flex justify-end space-x-3">
-                  <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200">
-                    Reset to Defaults
-                  </button>
-                  <button className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700">
-                    Save Configuration
-                  </button>
+              )
+            ) : (
+              <div className="bg-white rounded-xl shadow p-6 mt-12 text-center">
+                <div className="flex justify-center mb-6">
+                  <Lock size={48} className="text-gray-500" />
                 </div>
+                <h2 className="text-xl font-semibold mb-4">Not Authorized</h2>
+                <p className="text-sm text-gray-500 mb-6">
+                  You need to be logged in to access the sensor control panel.
+                </p>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="px-12 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+                >
+                  Login
+                </button>
               </div>
             )}
           </div>
