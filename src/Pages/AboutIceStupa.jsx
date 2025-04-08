@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
 const AboutIceStupa = () => {
-  // For the video modal
-  const [showVideo, setShowVideo] = useState(false);
+  const { navigate } = useContext(AppContext);
 
   // Image paths would be imported from your assets
   const images = {
@@ -379,12 +379,26 @@ const AboutIceStupa = () => {
             get involved with the Ice Stupa project.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-6 py-3 bg-white text-blue-800 font-medium rounded-md hover:bg-blue-50 transition-colors">
+            <button
+              onClick={() => {
+                navigate("/activeProject");
+                setTimeout(() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth", // Smooth scroll
+                  });
+                }, 100); 
+              }}
+              className="px-6 py-3 bg-white text-blue-800 font-medium rounded-md hover:bg-blue-50 transition-colors"
+            >
               Support Our Work
             </button>
-            <button className="px-6 py-3 bg-transparent border border-white text-white font-medium rounded-md hover:bg-blue-800 transition-colors">
+            <a
+              href="https://youtu.be/gvjJ39s53rk?si=q8950OXZ2Up4LIjs"
+              className="px-6 py-3 bg-transparent border border-white text-white font-medium rounded-md hover:bg-blue-800 transition-colors"
+            >
               Learn More About Automation
-            </button>
+            </a>
           </div>
         </div>
       </div>

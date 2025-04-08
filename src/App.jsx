@@ -11,6 +11,9 @@ import AboutIceStupa from "./Pages/AboutIceStupa.jsx";
 import AboutUs from "./Pages/AboutUs.jsx";
 import Stored from "./Pages/Stored.jsx";
 import ActiveProjects from "./Pages/ActiveProjects.jsx";
+import Contact from "./Pages/Contact.jsx";
+import Careers from "./Pages/Careers.jsx";
+import Research from "./Pages/Research.jsx";
 
 const App = () => {
   return (
@@ -30,6 +33,9 @@ const App = () => {
         <Route path="/aboutUs" element={<AboutUs />}></Route>
 
         <Route path="/activeProject" element={<ActiveProjects/>}></Route>
+        <Route path="/contact" element={<Contact/>}></Route>
+        <Route path="/careers" element={<Careers/>}></Route>
+        <Route path="/research" element={<Research/>}></Route>
       </Routes>
       <Footer />
     </div>

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { assets } from "../assets/assets";
-import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 const Hero = () => {
@@ -25,8 +24,16 @@ const Hero = () => {
 
           <div className="grid grid-cols-2 gap-4 mb-6">
             <div
-              onClick={() => navigate("/stored")}
-              className="bg-blue-100 border border-gray-300 cursor-pointer p-3 rounded-md"
+              onClick={() => {
+                navigate("/stored");
+                setTimeout(() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth", // Smooth scroll
+                  });
+                }, 100);
+              }}
+              className="bg-blue-100 border border-gray-300 cursor-pointer hover:bg-blue-200 p-3 rounded-md"
             >
               <p className="text-xs text-gray-500">Water Stored</p>
               <p className="text-xl font-bold text-blue-700">
@@ -36,7 +43,15 @@ const Hero = () => {
               </p>
             </div>
             <div
-              onClick={() => navigate("/locations")}
+              onClick={() => {
+                navigate("/locations");
+                setTimeout(() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth", // Smooth scroll
+                  });
+                }, 100);
+              }}
               className="bg-cyan-50 p-3 cursor-pointer rounded-md border hover:bg-cyan-100 border-gray-300"
             >
               <p className="text-xs text-gray-500">Active Sites</p>
@@ -55,8 +70,16 @@ const Hero = () => {
           </p>
 
           <button
-            onClick={() => navigate("/aboutIceStupa")}
-            className="py-2 px-6 bg-cyan-500 text-white text-sm font-medium rounded-md hover:bg-cyan-600 transition duration-200"
+            onClick={() => {
+              navigate("/aboutIceStupa");
+              setTimeout(() => {
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth", // Smooth scroll
+                });
+              }, 100);
+            }}
+            className="py-2 px-6 bg-cyan-500 text-white cursor-pointer text-sm font-medium rounded-md hover:bg-cyan-600 transition duration-200"
           >
             More About Ice Stupa
           </button>

@@ -68,8 +68,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  onClick={()=>scrollTo(0,0)}
-
+                  onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Home
@@ -78,8 +77,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/activeProject"
-                  onClick={()=>scrollTo(0,0)}
-                  
+                  onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Active Projects
@@ -88,8 +86,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/technology"
-                  onClick={()=>scrollTo(0,0)}
-
+                  onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Technology
@@ -98,13 +95,12 @@ const Footer = () => {
               <li>
                 <Link
                   to="/aboutUs"
-                  onClick={()=>scrollTo(0,0)}
+                  onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   About Us
                 </Link>
               </li>
-         
             </ul>
           </div>
 
@@ -115,14 +111,13 @@ const Footer = () => {
               <li>
                 <Link
                   to="/research"
-                  onClick={()=>scrollTo(0,0)}
-
+                  onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
-                  Research 
+                  Research
                 </Link>
               </li>
-            
+
               <li>
                 <a
                   href="https://acresofice.com/case-study/"
@@ -131,14 +126,22 @@ const Footer = () => {
                   Site Map
                 </a>
               </li>
-              {/* <li>
+              <li>
                 <Link
-                  to="/partnerships"
+                  to="/careers"
+                  onClick={() =>
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100)
+                  }
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
-                  Partnerships
+                  Careers
                 </Link>
-              </li> */}
+              </li>
               <li>
                 <a
                   href="https://milaap.org/fundraisers/hial"
@@ -164,19 +167,41 @@ const Footer = () => {
                 </span>
               </li>
               <li className="flex items-center">
-                <Phone size={18} className="text-cyan-600 mr-2 flex-shrink-0" />
-                <span className="text-gray-600 text-sm">+91 1982 252421</span>
+                <a href="tel:+919682574824" className="flex items-center">
+                  <Phone
+                    size={18}
+                    className="text-cyan-600 mr-2 flex-shrink-0"
+                  />
+                  <span className="text-gray-600 text-sm">+91 9682574824</span>
+                </a>
               </li>
+
               <li className="flex items-center">
-                <Mail size={18} className="text-cyan-600 mr-2 flex-shrink-0" />
-                <span className="text-gray-600 text-sm">
-                  contact@icestupa.org
-                </span>
+                <a
+                  href="mailto:jigmatdorjey255@gmail.com"
+                  className="flex items-center"
+                >
+                  <Mail
+                    size={18}
+                    className="text-cyan-600 mr-2 flex-shrink-0"
+                  />
+                  <span className="text-gray-600 text-sm">
+                    jigmatdorjey255@gmail.com
+                  </span>
+                </a>
               </li>
             </ul>
             <div className="mt-4 pt-2">
               <Link
                 to="/contact"
+                onClick={() => {
+                  setTimeout(() => {
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth", // Smooth scroll
+                    });
+                  }, 100);
+                }}
                 className="bg-cyan-100 text-cyan-700 px-4 py-2 rounded-md text-sm hover:bg-cyan-200 transition"
               >
                 Send Message
