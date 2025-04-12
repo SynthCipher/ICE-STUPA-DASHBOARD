@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { assets } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 const AboutIceStupa = () => {
@@ -12,6 +12,7 @@ const AboutIceStupa = () => {
     process4: assets.image4, // Ice formation
     process5: assets.image5, // Melting and storage
     sonamPhoto: assets.sonam, // Sonam's photo
+    norphelPhoto: assets.norphel, // Using sonam image for Chewang Norphel as requested
     videoThumbnail: assets.image6, // Video thumbnail
   };
 
@@ -225,6 +226,131 @@ const AboutIceStupa = () => {
           </div>
         </div>
 
+        {/* About Chewang Norphel - NEW SECTION */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            The Pioneer: Chewang Norphel
+          </h2>
+
+          <div className="bg-gradient-to-br from-blue-50 to-white rounded-xl overflow-hidden shadow-lg">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
+              {/* Image Column */}
+              <div className="lg:col-span-4 h-full">
+                <div className="h-full">
+                  <img
+                    src={images.norphelPhoto}
+                    alt="Chewang Norphel"
+                    className="w-full h-full object-cover"
+                    style={{ minHeight: "400px" }}
+                  />
+                </div>
+              </div>
+
+              {/* Content Column */}
+              <div className="lg:col-span-8 p-8">
+                <div className="flex items-center mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900">
+                    Chewang Norphel
+                  </h3>
+                  <span className="ml-4 px-3 py-1 text-center bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                    Ice Man of India
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Bio Section */}
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                      Background
+                    </h4>
+                    <p className="text-gray-700 mb-4">
+                      Chewang Norphel, often referred to as the "Ice Man of
+                      India" or "Glacier Man," pioneered the concept of
+                      artificial glaciers in Ladakh during the 1980s. A civil
+                      engineer by profession, he spent decades working for the
+                      Rural Development Department in Ladakh.
+                    </p>
+                    <p className="text-gray-700 mb-4">
+                      Born in 1935, Norphel observed the water scarcity problems
+                      in Ladakh and developed his first artificial glacier in
+                      the village of Phuktsey. His innovative approach has since
+                      transformed agriculture in the region, enabling farming in
+                      previously water-scarce areas.
+                    </p>
+                    <p className="text-gray-700">
+                      His method involves diverting water from streams into
+                      shaded areas where it freezes during winter months,
+                      creating horizontal artificial glaciers that melt in
+                      spring to provide crucial irrigation water before natural
+                      glacial melt begins.
+                    </p>
+                  </div>
+
+                  {/* Achievements Section */}
+                  <div>
+                    <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                      Innovation & Impact
+                    </h4>
+                    <p className="text-gray-700 mb-4">
+                      Before Ice Stupas were developed, Norphel had already
+                      created more than 15 artificial glaciers across Ladakh.
+                      These horizontal artificial glaciers have provided water
+                      to thousands of villagers during critical spring months.
+                    </p>
+                    <p className="text-gray-700 mb-4">
+                      His innovations directly influenced later water
+                      conservation efforts in the region, including Sonam
+                      Wangchuk's vertical Ice Stupas. The two approaches
+                      complement each other, with horizontal glaciers being
+                      suitable for certain terrains and vertical stupas for
+                      others.
+                    </p>
+
+                    <blockquote className="border-l-4 border-blue-600 pl-4 italic text-gray-700">
+                      "I saw water flowing freely during winter, but farmers
+                      faced water shortages in spring when they needed it for
+                      crops. That's when I realized we needed to store this
+                      winter water."
+                      <cite className="block text-sm font-medium text-gray-500 mt-2 not-italic">
+                        — Chewang Norphel
+                      </cite>
+                    </blockquote>
+                  </div>
+                </div>
+
+                {/* Achievements */}
+                <div className="mt-8">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                    Recognition
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <span className="text-blue-600 font-medium block mb-1">
+                        2011
+                      </span>
+                      <p className="text-gray-800">Padma Shri Award</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <span className="text-blue-600 font-medium block mb-1">
+                        2012
+                      </span>
+                      <p className="text-gray-800">Great Son of Soil Award</p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                      <span className="text-blue-600 font-medium block mb-1">
+                        Legacy
+                      </span>
+                      <p className="text-gray-800">
+                        More than 15 artificial glaciers created
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* About Sonam Wangchuk - Completely Redesigned */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -251,7 +377,7 @@ const AboutIceStupa = () => {
                   <h3 className="text-2xl font-bold text-gray-900">
                     Sonam Wangchuk
                   </h3>
-                  <span className="ml-4 px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
+                  <span className="ml-4 px-3 text-center py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
                     Engineer & Educator
                   </span>
                 </div>
@@ -293,10 +419,10 @@ const AboutIceStupa = () => {
                           className="w-full h-full object-cover"
                           src="https://www.youtube.com/embed/WC_JPSIoTPc?si=ctC0gmrS1-yQ8y4i"
                           title="YouTube video player"
-                          frameborder="0"
+                          frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                          referrerpolicy="strict-origin-when-cross-origin"
-                          allowfullscreen
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
                         ></iframe>
                       </div>
                     </div>
@@ -387,7 +513,7 @@ const AboutIceStupa = () => {
                     top: 0,
                     behavior: "smooth", // Smooth scroll
                   });
-                }, 100); 
+                }, 100);
               }}
               className="px-6 py-3 bg-white text-blue-800 font-medium rounded-md hover:bg-blue-50 transition-colors"
             >

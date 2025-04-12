@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { papers } from "../assets/assets.js";
 
-
 const Research = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
@@ -10,7 +9,6 @@ const Research = () => {
     selectedCategory === "all"
       ? papers
       : papers.filter((paper) => paper.category === selectedCategory);
-
 
   return (
     <div className="bg-gray-50 min-h-screen pb-16 mb-6">
@@ -37,7 +35,7 @@ const Research = () => {
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
             } transition`}
           >
-            All Papers
+            All
           </button>
           <button
             onClick={() => setSelectedCategory("ice-stupa")}
@@ -47,17 +45,17 @@ const Research = () => {
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
             } transition`}
           >
-            Ice Stupa
+            Publication
           </button>
           <button
-            onClick={() => setSelectedCategory("artificial-glacier")}
+            onClick={() => setSelectedCategory("News Articles")}
             className={`px-6 py-2 rounded-full ${
-              selectedCategory === "artificial-glacier"
+              selectedCategory === "News Articles"
                 ? "bg-blue-700 text-white"
                 : "bg-gray-200 text-gray-800 hover:bg-gray-300"
             } transition`}
           >
-            Artificial Glaciers
+            News Articles
           </button>
         </div>
 
@@ -140,7 +138,7 @@ const Research = () => {
             findings with our community.
           </p>
           <a
-            href="/submit-research"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfECpRbBlBpQa8Ie5-qDJtW7iOHJPL6M2_zBhFL8VPf9rGfSA/viewform?usp=dialog"
             className="inline-flex items-center bg-blue-700 text-white px-6 py-3 rounded-full hover:bg-blue-800 transition"
           >
             Submit Your Research

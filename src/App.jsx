@@ -14,6 +14,11 @@ import ActiveProjects from "./Pages/ActiveProjects.jsx";
 import Contact from "./Pages/Contact.jsx";
 import Careers from "./Pages/Careers.jsx";
 import Research from "./Pages/Research.jsx";
+import LocalRegister from "./Pages/LocalRegister.jsx";
+import SiteRegister from "./Pages/SiteRegister.jsx";
+import AllSite from "./Pages/AllSite.jsx";
+import Edit from "./Pages/Edit.jsx";
+import View from "./Pages/View.jsx";
 
 const App = () => {
   return (
@@ -28,14 +33,19 @@ const App = () => {
         <Route path="/locations/:locationId" element={<Location />}></Route>
         <Route path="/login" element={<Login />}></Route>
 
-        <Route path="/stored" element={<Stored/>}></Route>
+        <Route path="/stored" element={<Stored />}></Route>
 
         <Route path="/aboutUs" element={<AboutUs />}></Route>
 
-        <Route path="/activeProject" element={<ActiveProjects/>}></Route>
-        <Route path="/contact" element={<Contact/>}></Route>
-        <Route path="/careers" element={<Careers/>}></Route>
-        <Route path="/research" element={<Research/>}></Route>
+        <Route path="/activeProject" element={<ActiveProjects />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/careers" element={<Careers />}></Route>
+        <Route path="/research" element={<Research />}></Route>
+        <Route path="/registerUser" element={<LocalRegister />}></Route>
+        <Route path="/registerSite" element={<SiteRegister />}></Route>
+        <Route path="/all-sites" element={<AllSite />}></Route>
+        <Route path="/site/:id/edit" element={<Edit />}></Route>
+        <Route path="/site/:id/view" element={<View />}></Route>
       </Routes>
       <Footer />
     </div>

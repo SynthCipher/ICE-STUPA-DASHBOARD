@@ -6,7 +6,6 @@ const ActiveProjects = () => {
   return (
     <div className="bg-gray-50 min-h-screen mb-8 p-6 mt-6">
       <div className="max-w-6xl mx-auto">
-    
         {/* Page Title */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold mb-2">

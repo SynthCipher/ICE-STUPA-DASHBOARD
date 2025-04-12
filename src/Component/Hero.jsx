@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 
 const Hero = () => {
   // const navigate = useNavigate();
-  const { waterStored, navigate } = useContext(AppContext);
+
+  const {  navigate, totalWater, fetchLocation, locationData } =
+    useContext(AppContext);
+    const [waterStored,setWaterStored]=useState(null);
+  useEffect(() => {
+    fetchLocation();
+    const total = totalWater();
+    setWaterStored(total)
+  }, [totalWater,fetchLocation]);
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6 mt-10 md:mt-10">
@@ -59,7 +67,8 @@ const Hero = () => {
                 // Redirect to locations page
                 className="text-xl font-bold text-cyan-700  cursor-pointer"
               >
-                8 Locations
+                {/* 8 Locations <br /> */}
+                {locationData.length} Locations
               </button>
             </div>
           </div>

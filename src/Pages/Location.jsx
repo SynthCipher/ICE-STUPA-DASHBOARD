@@ -24,11 +24,14 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { locationData } from "../assets/assets";
+// import { locationData } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const LocationDetail = () => {
-  const { token, navigate } = useContext(AppContext);
+  const { token, navigate, userRole, backendUrl, userData } =
+    useContext(AppContext);
   const { locationId } = useParams();
   const [location, setLocation] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
@@ -37,6 +40,7 @@ const LocationDetail = () => {
     waterFlow: true,
     solarPanel: false,
   });
+  const { fetchLocation, locationData } = useContext(AppContext);
 
   // Dummy sensor data for charts
   const temperatureData = [
@@ -69,13 +73,63 @@ const LocationDetail = () => {
     { date: "2025-03-07", value: 5.2 },
   ];
 
+  const printRole = () => {
+    console.log(userRole);
+    console.log("userId", userData._id);
+    // console.log("locatinID", location._id);
+    console.log(location);
+  };
+
+  const controlPanelAcess = async () => {
+    if (!location || !location.supervisorId || !userData) {
+      // toast.error("Location or user data not available.");
+      return false;
+    }
+    if (location.supervisorId === userData._id) {
+      // toast.success("it ture");
+      return true;
+    }
+    // toast.error("it false");
+
+    return false;
+  };
+  // useEffect(()=>{
+  //   controlPanelAcess()
+  // },[location])
+
+  const [hasControlPanelAccess, setHasControlPanelAccess] = useState(false);
+
+  // useEffect(() => {
+    
+  // }, [userRole, userData._id]);
+
   useEffect(() => {
+    fetchLocation();
+    const checkAccess = async () => {
+      if (userRole === "admin") {
+        setHasControlPanelAccess(true);
+        return;
+      }
+      if (userRole === "supervisor") {
+        const result = await controlPanelAcess();
+        setHasControlPanelAccess(result);
+      }
+    };
+
+    checkAccess();
+
     // Find the location data based on the locationId
-    const foundLocation = locationData.find((loc) => loc.id === locationId);
+    const foundLocation = locationData.find(
+      (loc) => loc.siteName === locationId
+    );
     if (foundLocation) {
       setLocation(foundLocation);
     }
-  }, [locationId]);
+    // printRole();
+    // controlPanelAcess()
+
+    // console.log(locationId);
+  }, [token,locationId, locationData]);
 
   const toggleSensor = (sensorName) => {
     setSensorStatuses((prev) => ({
@@ -110,7 +164,7 @@ const LocationDetail = () => {
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: `url(${location.imageUrl})`,
+                backgroundImage: `url(${location.siteImage})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -122,7 +176,11 @@ const LocationDetail = () => {
                     <span>{location.country}</span>
                   </div>
                   <h1 className="text-3xl md:text-4xl font-bold">
-                    {location.name}
+                    <span className="text-2xl md:text-3xl ">
+                      {location.siteName}
+                    </span>
+                    <br />
+                    {location.location}
                   </h1>
                   <p className="mt-2 max-w-2xl">
                     {location.description ||
@@ -140,8 +198,11 @@ const LocationDetail = () => {
                 <Calendar size={16} className="mr-2 text-cyan-600" />
                 Established
               </span>
-              <span className="font-medium">{location.established}</span>
+              <span className="font-medium">
+                {new Date(location.established).getFullYear()}
+              </span>
             </div>
+
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm flex items-center">
                 <svg
@@ -158,21 +219,26 @@ const LocationDetail = () => {
                 </svg>
                 Elevation
               </span>
-              <span className="font-medium">{location.elevation}</span>
+              <span className="font-medium">
+                {location.coordinates.altitude}m
+              </span>
             </div>
+
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm flex items-center">
                 <Droplet size={16} className="mr-2 text-cyan-600" />
                 Water Capacity
               </span>
-              <span className="font-medium">{location.waterCapacity}</span>
+              <span className="font-medium">
+                {(location.waterCapacity / 1_000_000).toFixed(1)}M L
+              </span>
             </div>
             <div className="flex flex-col">
               <span className="text-gray-500 text-sm flex items-center">
                 <Users size={16} className="mr-2 text-cyan-600" />
                 Beneficiaries
               </span>
-              <span className="font-medium">{location.beneficiaries}</span>
+              <span className="font-medium">{location.beneficiaries}+ </span>
             </div>
           </div>
         </div>
@@ -180,7 +246,7 @@ const LocationDetail = () => {
         {/* Navigation tabs */}
         <div className="flex border-b border-gray-200 mb-6">
           <button
-            className={`px-4 py-2 font-medium text-sm ${
+            className={`px-4 cursor-pointer py-2 font-medium text-sm ${
               activeTab === "overview"
                 ? "text-cyan-700 border-b-2 border-cyan-700"
                 : "text-gray-500 hover:text-gray-700"
@@ -190,7 +256,7 @@ const LocationDetail = () => {
             Overview
           </button>
           <button
-            className={`px-4 py-2 font-medium text-sm ${
+            className={`px-4  cursor-pointer py-2 font-medium text-sm ${
               activeTab === "sensors"
                 ? "text-cyan-700 border-b-2 border-cyan-700"
                 : "text-gray-500 hover:text-gray-700"
@@ -200,7 +266,7 @@ const LocationDetail = () => {
             Sensor Data
           </button>
           <button
-            className={`px-4 py-2 font-medium text-sm ${
+            className={`px-4 cursor-pointer py-2 font-medium text-sm ${
               activeTab === "control"
                 ? "text-cyan-700 border-b-2 border-cyan-700"
                 : "text-gray-500 hover:text-gray-700"
@@ -221,7 +287,7 @@ const LocationDetail = () => {
                   About This Location
                 </h2>
                 <p className="text-gray-700 mb-4">
-                  {location.longDescription ||
+                  {location.siteDescription ||
                     `The Ice Stupa project at ${location.name} was established in ${location.established} 
                   to address seasonal water scarcity in this high-altitude region. Using innovative passive freezing 
                   technology, this artificial glacier stores winter water for use during spring planting season.`}
@@ -233,19 +299,29 @@ const LocationDetail = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                       <div>
                         <p className="text-cyan-700 text-2xl font-bold">
-                          ~{location.waterCapacity}
+                          ~
+                          {(
+                            (location.waterCapacity -
+                              (location.waterCapacity * 20) / 100) /
+                            1_000_000
+                          ).toFixed(2)}
+                          M L
                         </p>
                         <p className="text-gray-600">Water Stored</p>
                       </div>
                       <div>
                         <p className="text-cyan-700 text-2xl font-bold">
-                          {location.beneficiaries}
+                          {location.beneficiaries}+
                         </p>
                         <p className="text-gray-600">People Benefited</p>
                       </div>
                       <div>
                         <p className="text-cyan-700 text-2xl font-bold">
-                          {location.farmlandIrrigated || "40+ hectares"}
+                          {location.farmlandIrrigated ||
+                            `${(
+                              (location.waterCapacity / 16_000_000) *
+                              24.71
+                            ).toFixed(1)}+ Acres`}
                         </p>
                         <p className="text-gray-600">Land Irrigated</p>
                       </div>
@@ -375,8 +451,10 @@ const LocationDetail = () => {
               </div>
             )}
 
-            {token ? (
-              activeTab === "control" && (
+            {activeTab === "control" ? (
+              token && hasControlPanelAccess ? (
+                // (userRole === "admin" ||
+                //   (userRole === "supervisor" && controlPanelAcess)) ?
                 <div className="bg-white rounded-xl shadow p-6">
                   <h2 className="text-2xl font-semibold mb-6">
                     Sensor Control Panel
@@ -566,23 +644,34 @@ const LocationDetail = () => {
                     </button>
                   </div>
                 </div>
+              ) : (
+                <div className="bg-white rounded-xl shadow p-6 mt-12 text-center">
+                  <div className="flex justify-center mb-6">
+                    <Lock size={48} className="text-gray-500" />
+                  </div>
+                  <h2 className="text-xl font-semibold mb-4">Access Denied</h2>
+                  <p className="text-sm text-gray-500 mb-6">
+                    You are not authorized to view this page. Please contact
+                    your administrator for access permissions.
+                  </p>
+                  <button
+                    onClick={() => {
+                      navigate("/login");
+                      setTimeout(() => {
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth", // Smooth scroll
+                        });
+                      }, 100);
+                    }}
+                    className="px-12 py-2 cursor-pointer bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+                  >
+                    Login
+                  </button>
+                </div>
               )
             ) : (
-              <div className="bg-white rounded-xl shadow p-6 mt-12 text-center">
-                <div className="flex justify-center mb-6">
-                  <Lock size={48} className="text-gray-500" />
-                </div>
-                <h2 className="text-xl font-semibold mb-4">Not Authorized</h2>
-                <p className="text-sm text-gray-500 mb-6">
-                  You need to be logged in to access the sensor control panel.
-                </p>
-                <button
-                  onClick={() => navigate("/login")}
-                  className="px-12 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
-                >
-                  Login
-                </button>
-              </div>
+              <></>
             )}
           </div>
 
@@ -596,26 +685,61 @@ const LocationDetail = () => {
                   <MapPin size={18} className="mr-3 text-cyan-600 mt-0.5" />
                   <div>
                     <p className="text-sm text-gray-500">Address</p>
-                    <p>
-                      {location.address ||
-                        `${location.name}, ${location.region || ""}, ${
-                          location.country
-                        }`}
-                    </p>
+                    <p>{`${location.siteName}, ${location.location}`}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <Layers size={18} className="mr-3 text-cyan-600 mt-0.5" />
                   <div>
                     <p className="text-sm text-gray-500">Terrain Type</p>
-                    <p>{location.terrain || "Mountain Desert"}</p>
+                    <p>
+                      {(() => {
+                        const countryTerrainMap = {
+                          India: "Cold Mountain Desert",
+                          Nepal: "High Himalayan Region",
+                          Pakistan: "Karakoram Mountain Region",
+                          Chile: "Andes Mountains",
+                          Switzerland: "Alpine Region",
+                          Bhutan: "Eastern Himalayan Region",
+                          Peru: "High Andes",
+                          China: "Tibetan Plateau",
+                          Mongolia: "Cold Desert Steppe",
+                          Afghanistan: "Hindu Kush Region",
+                        };
+
+                        return (
+                          countryTerrainMap[location.country] ||
+                          "Mountain Desert"
+                        );
+                      })()}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <Calendar size={18} className="mr-3 text-cyan-600 mt-0.5" />
                   <div>
                     <p className="text-sm text-gray-500">Active Season</p>
-                    <p>{location.activeSeason || "November to May"}</p>
+                    <p>
+                      {(() => {
+                        const activeSeasonMap = {
+                          India: "November to May",
+                          Nepal: "November to April",
+                          Pakistan: "November to March",
+                          Chile: "June to October",
+                          Switzerland: "December to April",
+                          Bhutan: "November to March",
+                          Peru: "May to September",
+                          China: "October to March",
+                          Mongolia: "November to March",
+                          Afghanistan: "November to March",
+                        };
+
+                        return (
+                          activeSeasonMap[location.country] ||
+                          "Season varies by region"
+                        );
+                      })()}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -696,7 +820,10 @@ const LocationDetail = () => {
                   Schedule Maintenance
                 </button>
                 <button
-                  onClick={() => (window.location.href = "tel:+919682574824")}
+                  // onClick={() => (window.location.href = `tel:+919682574824`)}
+                  onClick={() =>
+                    (window.location.href = `tel:${location.contactPhone}`)
+                  }
                   className="w-full py-2 bg-white border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 font-medium"
                 >
                   Contact Local Team

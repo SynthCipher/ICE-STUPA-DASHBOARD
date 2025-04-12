@@ -42,9 +42,9 @@ const Contact = () => {
     }, 1500);
   };
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log(formData);
+  // }, [formData]);
 
   return (
     <div className="bg-[#f0f4f8] min-h-screen py-8 px-4">

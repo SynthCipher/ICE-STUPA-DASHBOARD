@@ -1,16 +1,40 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
 import { MapPin, Users, Droplet, Calendar } from "lucide-react";
-import { locationData } from "../assets/assets";
+import { AppContext } from "../context/AppContext";
+
 const Locations = () => {
-  const navigate = useNavigate();
+  const { navigate, locationData, fetchLocation } = useContext(AppContext);
 
   // Handle click on a location card
-  const handleLocationClick = (locationId) => {
-    navigate(`/locations/${locationId}`);
+  const handleLocationClick = (siteName) => {
+    // console.log(siteName);
+    navigate(`/locations/${siteName}`);
     scrollTo(0, 0);
   };
 
+  useEffect(() => {
+    fetchLocation();
+  }, []);
+
+  // Loading state when no data is available
+  if (!locationData || locationData.length === 0) {
+    return (
+      <div className="bg-[#f0f4f8] my-24 py-8 px-4 flex justify-center items-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-700 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading locations...</p>
+          <button
+            onClick={fetchLocation}
+            className="mt-4 px-4 py-2 bg-cyan-700 text-white rounded cursor-pointer hover:bg-cyan-800"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Main content when data is available
   return (
     <div className="bg-[#f0f4f8] min-h-screen py-8 px-4">
       <div className="max-w-7xl mx-auto">
@@ -20,7 +44,7 @@ const Locations = () => {
             Ice Stupa Project Locations
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Explore our artificial glacier installations across 8 high-altitude
+            Explore our artificial glacier installations across high-altitude
             regions around the world, helping communities conserve water and
             adapt to climate change.
           </p>
@@ -30,8 +54,12 @@ const Locations = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {locationData.map((location) => (
             <div
-              key={location.id}
-              onClick={() => handleLocationClick(location.id)}
+              key={location._id}
+              onClick={(e) => {
+                e.stopPropagation();
+                // console.log(location.siteName);
+                handleLocationClick(location.siteName); // ✅ Correct
+              }}
               className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
             >
               <div className="h-48 overflow-hidden relative">
@@ -39,7 +67,7 @@ const Locations = () => {
                 <div
                   className="w-full h-full bg-cyan-700"
                   style={{
-                    backgroundImage: `url(${location.imageUrl})`,
+                    backgroundImage: `url(${location.siteImage})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
@@ -50,7 +78,9 @@ const Locations = () => {
                         <MapPin size={16} className="mr-1" />
                         <span className="text-sm">{location.country}</span>
                       </div>
-                      <h3 className="text-xl font-semibold">{location.name}</h3>
+                      <h3 className="text-xl font-semibold">
+                        {location.siteName} <br />{location.location}
+                      </h3>
                     </div>
                   </div>
                 </div>
@@ -59,7 +89,9 @@ const Locations = () => {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div className="flex items-center text-gray-600">
                     <Calendar size={14} className="mr-2 text-cyan-600" />
-                    <span>Est: {location.established}</span>
+                    {/* <span>Est: {location.established}</span> */}
+                    <span>{new Date(location.established).getFullYear()}</span>
+                    {/* <h1>{location._id}</h1> */}
                   </div>
                   <div className="flex items-center text-gray-600">
                     <svg
@@ -74,11 +106,14 @@ const Locations = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    <span>{location.elevation}</span>
+                    {/* <span>{location.coordinates.altitude}</span> */}
+                    <span>{location.coordinates.altitude}</span>
                   </div>
                   <div className="flex items-center text-gray-600">
                     <Droplet size={14} className="mr-2 text-cyan-600" />
-                    <span>{location.waterCapacity}</span>
+                    <span>
+                      {(location.waterCapacity / 1_000_000).toFixed(1)}M L
+                    </span>
                   </div>
                   <div className="flex items-center text-gray-600">
                     <Users size={14} className="mr-2 text-cyan-600" />
@@ -86,10 +121,10 @@ const Locations = () => {
                   </div>
                 </div>
                 <button
-                  className="w-full mt-4 py-2 bg-cyan-50 text-cyan-700 rounded-md hover:bg-cyan-100 transition duration-200 text-sm font-medium"
+                  className="w-full mt-4 py-2 bg-cyan-50 cursor-pointer text-cyan-700 rounded-md hover:bg-cyan-100 transition duration-200 text-sm font-medium"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleLocationClick(location.id);
+                    handleLocationClick(location.siteName);
                   }}
                 >
                   View Details

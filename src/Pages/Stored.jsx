@@ -1,16 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArrowLeft, Droplet, Award, Home, TreePine } from "lucide-react";
-import { AppContext } from "../context/AppContext";
+import { AppContext } from "../context/AppContext.jsx";
 
 const Stored = () => {
-  const { waterStored } = useContext(AppContext);
+  // const { waterStored } = useContext(AppContext);
+
+  const { totalWater, fetchLocation } = useContext(AppContext);
+  const [waterStored, setWaterStored] = useState(null);
+  useEffect(() => {
+    fetchLocation();
+    const total = totalWater();
+    setWaterStored(total);
+  }, [totalWater, fetchLocation]);
+
   // Constants for calculations
 
   const totalLiters = waterStored; // 14.2M gallons = 53,755,398 liters
   const olympicPoolLiters = 2500000; // Olympic swimming pool holds about 2,500,000 liters
   const olympicPoolCount = (totalLiters / olympicPoolLiters).toFixed(1);
 
-  const waterTankCapacityLiters = 3785; // Standard water tank (Sintex) in liters (1000 gallons)
+  const waterTankCapacityLiters = 1000; // Standard water tank (Sintex) in liters (1000 gallons)
   const waterTankCount = Math.round(totalLiters / waterTankCapacityLiters);
 
   const litersPerAcreInch = 102800; // Liters needed to cover 1 acre with 1 inch of water
@@ -28,7 +37,7 @@ const Stored = () => {
         <div className="flex items-center mb-6">
           <button
             onClick={() => window.history.back()}
-            className="flex items-center text-blue-600 hover:text-blue-800"
+            className="flex items-center cursor-pointer  text-blue-600 hover:text-blue-800"
           >
             <ArrowLeft size={20} className="mr-2" />
             <span>Back to Dashboard</span>
@@ -39,7 +48,11 @@ const Stored = () => {
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <h1 className="text-3xl font-bold text-center mb-2">Water Stored</h1>
           <div className="text-5xl font-bold text-center text-blue-600">
-            53.8M Liters
+            {/* 53.8M Liters */}
+
+            {waterStored >= 1000000
+              ? (waterStored / 1000000).toFixed(1) + "M L"
+              : waterStored + " L"}
           </div>
         </div>
 
@@ -53,6 +66,8 @@ const Stored = () => {
             <h2 className="text-xl font-bold mb-2">Olympic Swimming Pools</h2>
             <p className="text-4xl font-bold text-blue-600 mb-2">
               {olympicPoolCount}
+
+              {/* {(waterStored / olympicPoolLiters).toFixed(1)}  */}
             </p>
             <p className="text-center text-gray-600">
               Our stored water equals {olympicPoolCount} Olympic-sized swimming
@@ -70,7 +85,7 @@ const Stored = () => {
               {waterTankCount.toLocaleString()}
             </p>
             <p className="text-center text-gray-600">
-              Equivalent to {waterTankCount.toLocaleString()} standard water
+              Equivalent to {waterTankCount.toLocaleString()} standard 1KL water
               tanks
             </p>
           </div>

@@ -29,6 +29,7 @@ import paper2 from "./paper2.png";
 import paper3 from "./paper3.png";
 import paper4 from "./paper4.png"
 // Research paper data
+import norphel from "./iceman.webp"
 
 export const papers = [
   {
@@ -91,7 +92,7 @@ export const papers = [
     year: 2022,
     abstract:
       "A technical analysis of the engineering challenges encountered in ice stupa construction and the innovative solutions developed to overcome them in various regions.",
-    category: "ice-stupa",
+    category: "News Articles",
     image: village2,
     link: "https://example.com/ice-stupa-engineering",
   },
@@ -104,7 +105,7 @@ export const papers = [
     year: 2021,
     abstract:
       "This study evaluates the ecological and agricultural impacts of artificial glaciers, assessing their role in supporting local farming and effects on biodiversity in high-altitude ecosystems.",
-    category: "artificial-glacier",
+    category: "News Articles",
     image: village1,
     link: "https://example.com/glacier-agriculture-impact",
   },
@@ -123,6 +124,7 @@ export const assets = {
   image5,
   sonam,
   image6,
+  norphel
 };
 
 export const jobOpenings = [
