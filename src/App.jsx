@@ -19,6 +19,7 @@ import SiteRegister from "./Pages/SiteRegister.jsx";
 import AllSite from "./Pages/AllSite.jsx";
 import Edit from "./Pages/Edit.jsx";
 import View from "./Pages/View.jsx";
+import { Analytics } from "@vercel/analytics/react"
 
 const App = () => {
   return (
