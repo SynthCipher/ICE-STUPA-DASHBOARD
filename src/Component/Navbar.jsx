@@ -26,7 +26,7 @@ const Navbar = () => {
     } else if (userRole === "supervisor") {
       setUserRoleText("Supervisor");
     } else {
-      setUserRoleText("");
+      setUserRoleText("General User");
     }
   }, [token]); // Re-check when token changes
 

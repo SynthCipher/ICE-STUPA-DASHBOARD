@@ -29,7 +29,7 @@ export default function IceStupaDashboard() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentDescription((prev) => (prev + 1) % descriptions.length);
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(timer);
   }, []);
@@ -149,8 +149,7 @@ export default function IceStupaDashboard() {
                   Improved Efficiency
                 </h3>
                 <p className="text-gray-700 mt-2">
-                  Water usage reduced  while achieving larger ice
-                  formations
+                  Water usage reduced while achieving larger ice formations
                 </p>
               </div>
               <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-600">
@@ -193,9 +192,8 @@ export default function IceStupaDashboard() {
                   Energy Sustainability
                 </h3>
                 <p className="text-gray-700 mt-2">
-                  Solar-powered pumping systems reduce carbon footprint
-                  while providing reliable energy even in remote mountain
-                  locations
+                  Solar-powered pumping systems reduce carbon footprint while
+                  providing reliable energy even in remote mountain locations
                 </p>
               </div>
             </div>
