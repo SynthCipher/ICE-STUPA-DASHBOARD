@@ -28,6 +28,8 @@ import paper1 from "./paper1.avif";
 import paper2 from "./paper2.png";
 import paper3 from "./paper3.png";
 import paper4 from "./paper4.png"
+import before from "./1.png"
+import after from "./2.png"
 // Research paper data
 import norphel from "./iceman.webp"
 
@@ -124,7 +126,8 @@ export const assets = {
   image5,
   sonam,
   image6,
-  norphel
+  norphel,
+  before,after
 };
 
 export const jobOpenings = [

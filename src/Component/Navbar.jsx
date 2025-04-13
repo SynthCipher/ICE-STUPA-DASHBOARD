@@ -83,7 +83,7 @@ const Navbar = () => {
       </div>
 
       <>
-        {!token && (
+        {!token && currentPath !== "/" && (
           <div className="fixed  transform -translate-x-1/2 bottom-[3%] right-0 z-50 ">
             <div className="flex items-center bg-white shadow-lg rounded-full border w-12 h-12 border-blue-200  transition-all duration-300 hover:shadow-xl justify-center">
               <button
