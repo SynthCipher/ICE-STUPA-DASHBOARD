@@ -84,13 +84,19 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link
+                <a
+                  href="https://m.youtube.com/watch?v=gvjJ39s53rk"
+                  className="text-gray-600 hover:text-cyan-600 text-sm transition"
+                >
+                  Technology
+                </a>
+                {/* <Link
                   to="/technology"
                   onClick={() => scrollTo(0, 0)}
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Technology
-                </Link>
+                </Link> */}
               </li>
               <li>
                 <Link

@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Contact = () => {
+  const { backendUrl } = useContext(AppContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,31 +24,52 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/sites/send`,
+        {
+          email: formData.email,
+          name: formData.name,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        {
+          withCredentials: true, // Only set for this specific request
+        }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        setSubmitMessage("Thank you! Your message has been sent successfully.");
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSubmitMessage("");
+        }, 2000);
+        scrollTo(0, 0);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to send message"
+      );
+    } finally {
       setIsSubmitting(false);
-      setSubmitMessage("Thank you! Your message has been sent successfully.");
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      });
-
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        setSubmitMessage("");
-      }, 5000);
-    }, 1500);
+    }
   };
-
-  // useEffect(() => {
-  //   console.log(formData);
-  // }, [formData]);
 
   return (
     <div className="bg-[#f0f4f8] min-h-screen py-8 px-4">
@@ -199,14 +224,10 @@ const Contact = () => {
                   <div>
                     <h4 className="font-medium text-gray-800">Phone</h4>
                     <p className="text-gray-600">
-                      <a href="tel:+911982252421" >
-                        +91 1982 252421
-                      </a>
+                      <a href="tel:+911982252421">+91 1982 252421</a>
                     </p>
                     <p className="text-gray-600">
-                      <a href="tel:+919682574823" >
-                        +91 9682574823 (Mobile)
-                      </a>
+                      <a href="tel:+919682574823">+91 9682574823 (Mobile)</a>
                     </p>
                   </div>
                 </div>
