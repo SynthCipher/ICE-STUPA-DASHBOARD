@@ -126,7 +126,7 @@ const Navbar = () => {
       {isAdmin &&
         currentPath !== "/registerUser" &&
         currentPath !== "/registerSite" &&
-        currentPath !== "/all-sites" &&
+        // currentPath !== "/all-sites" &&
         // currentPath !== "/site/:id/view" &&
         // currentPath !== "/site/:id/edit" &&
         !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) && (
