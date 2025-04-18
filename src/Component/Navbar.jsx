@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 import { useLocation } from "react-router-dom";
-import { Globe, House, List } from "lucide-react";
+import { Globe, House, List, UsersRound } from "lucide-react";
 
 const Navbar = () => {
   const { navigate, token, setToken } = useContext(AppContext);
@@ -37,7 +37,7 @@ const Navbar = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("userRole");
       localStorage.removeItem("userData");
-      navigate('/login'); // Redirect to login page after logout
+      navigate("/login"); // Redirect to login page after logout
     } else {
       navigate("/login");
     }
@@ -107,15 +107,50 @@ const Navbar = () => {
 
       {isAdmin &&
         currentPath !== "/all-sites" &&
-        !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) && (
+        !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) &&
+        !/^\/user\/[^/]+\/(view|edit)$/.test(currentPath) && (
           <div className="fixed  transform -translate-x-1/2 bottom-[13%] md:bottom-[5%] right-0 md:right-[10%] z-50 ">
             <div className="flex items-center bg-white shadow-lg rounded-full border w-12 h-12 border-blue-200  transition-all duration-300 hover:shadow-xl justify-center">
               <div className="flex items-center bg-white shadow-lg rounded-full border w-12 h-12 border-blue-200 transition-all duration-300 hover:shadow-xl justify-center">
                 <button
-                  onClick={() => navigate("/all-sites")}
+                  onClick={() => {
+                    navigate("/all-sites");
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100);
+                  }}
                   className="text-blue-600 cursor-pointer hover:text-blue-800 font-medium py-1.5 rounded-full transition-all mx-1 text-center"
                 >
                   <List />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      {isAdmin &&
+        currentPath !== "/all-users" &&
+        !/^\/user\/[^/]+\/(view|edit)$/.test(currentPath) &&
+        !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) && (
+          <div className="fixed  transform translate-x-1/2 bottom-[13%] md:bottom-[5%] left-0 md:left-[10%] z-50 ">
+            <div className="flex items-center bg-white shadow-lg rounded-full border w-12 h-12 border-blue-200  transition-all duration-300 hover:shadow-xl justify-center">
+              <div className="flex items-center bg-white shadow-lg rounded-full border w-12 h-12 border-blue-200 transition-all duration-300 hover:shadow-xl justify-center">
+                <button
+                  onClick={() => {
+                    navigate("/all-users");
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100);
+                  }}
+                  className="text-blue-600 cursor-pointer hover:text-blue-800 font-medium py-1.5 rounded-full transition-all mx-1 text-center"
+                >
+                  {/* <Profile /> */}
+                  <UsersRound />
                 </button>
               </div>
             </div>
@@ -129,7 +164,8 @@ const Navbar = () => {
         // currentPath !== "/all-sites" &&
         // currentPath !== "/site/:id/view" &&
         // currentPath !== "/site/:id/edit" &&
-        !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) && (
+        !/^\/site\/[^/]+\/(view|edit)$/.test(currentPath) && 
+        !/^\/user\/[^/]+\/(view|edit)$/.test(currentPath) && (
           <div className="fixed left-1/2 transform -translate-x-1/2 bottom-[5%] z-50 w-[380px] sm:w-[380px] max-w-[90%]">
             <div className="flex items-center bg-white shadow-lg rounded-full border border-blue-200 py-2 px-4 transition-all duration-300 hover:shadow-xl justify-center">
               <button

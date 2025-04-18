@@ -114,8 +114,6 @@ const SiteRegister = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -206,6 +204,7 @@ const SiteRegister = () => {
             <img
               src={assets.logo}
               alt="Logo"
+              required
               className="h-16 cursor-pointer"
               onClick={() => navigate("/")}
             />

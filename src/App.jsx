@@ -20,6 +20,9 @@ import AllSite from "./Pages/AllSite.jsx";
 import Edit from "./Pages/Edit.jsx";
 import View from "./Pages/View.jsx";
 import { Analytics } from "@vercel/analytics/react";
+import AllUsers from "./Pages/AllUsers.jsx";
+import EditUser from "./Pages/EditUser.jsx";
+import ViewUser from "./ViewUser.jsx";
 
 const App = () => {
   return (
@@ -45,9 +48,12 @@ const App = () => {
         <Route path="/registerUser" element={<LocalRegister />}></Route>
         <Route path="/registerSite" element={<SiteRegister />}></Route>
         <Route path="/all-sites" element={<AllSite />}></Route>
+        <Route path="/all-users" element={<AllUsers />}></Route>
         <Route path="/site/:id/edit" element={<Edit />}></Route>
         <Route path="/site/:id/view" element={<View />}></Route>
-      </Routes>
+        <Route path="/user/:id/edit" element={<EditUser />}></Route>
+        <Route path="/user/:id/view" element={<ViewUser />}></Route>
+      </Routes>  
       <Footer />
       {/* ✅ Add Vercel Analytics here */}
       <Analytics />

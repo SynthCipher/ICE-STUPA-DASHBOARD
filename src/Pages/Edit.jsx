@@ -289,7 +289,7 @@ const Edit = () => {
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <button
-            onClick={() => navigate("/sites")}
+            onClick={() => navigate("/all-sites")}
             className="mr-4 p-2 rounded-full hover:bg-gray-200"
           >
             <ArrowLeft className="w-5 h-5" />

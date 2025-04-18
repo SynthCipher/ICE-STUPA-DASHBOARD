@@ -184,7 +184,14 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  onClick={() => scrollTo(0, 0)}
+                  onClick={() =>
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100)
+                  }
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Home
@@ -193,7 +200,14 @@ const Footer = () => {
               <li>
                 <Link
                   to="/activeProject"
-                  onClick={() => scrollTo(0, 0)}
+                  onClick={() =>
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100)
+                  }
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Active Projects
@@ -217,7 +231,14 @@ const Footer = () => {
               <li>
                 <Link
                   to="/aboutUs"
-                  onClick={() => scrollTo(0, 0)}
+                  onClick={() =>
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100)
+                  }
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   About Us
@@ -233,7 +254,14 @@ const Footer = () => {
               <li>
                 <Link
                   to="/research"
-                  onClick={() => scrollTo(0, 0)}
+                  onClick={() =>
+                    setTimeout(() => {
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth", // Smooth scroll
+                      });
+                    }, 100)
+                  }
                   className="text-gray-600 hover:text-cyan-600 text-sm transition"
                 >
                   Research

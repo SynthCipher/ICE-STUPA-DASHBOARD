@@ -1,13 +1,15 @@
-import React, { useContext, useEffect } from "react";
-import { MapPin, Users, Droplet, Calendar } from "lucide-react";
+import React, { useContext, useEffect, useState } from "react";
+import { MapPin, Users, Droplet, Calendar, Thermometer } from "lucide-react";
 import { AppContext } from "../context/AppContext";
+import axios from "axios";
 
 const Locations = () => {
   const { navigate, locationData, fetchLocation } = useContext(AppContext);
+  const [weatherData, setWeatherData] = useState({});
+  const API_KEY = "397bb54eb4827c690295a4ece1a58a5e";
 
   // Handle click on a location card
   const handleLocationClick = (siteName) => {
-    // console.log(siteName);
     navigate(`/locations/${siteName}`);
     scrollTo(0, 0);
   };
@@ -15,6 +17,45 @@ const Locations = () => {
   useEffect(() => {
     fetchLocation();
   }, []);
+
+  // Fetch weather data when locationData is loaded
+  useEffect(() => {
+    if (locationData && locationData.length > 0) {
+      fetchWeatherForLocations();
+    }
+  }, [locationData]);
+
+  // Fetch weather data for all locations
+  const fetchWeatherForLocations = async () => {
+    const weatherResults = {};
+
+    for (const location of locationData) {
+      if (
+        location.coordinates &&
+        location.coordinates.latitude &&
+        location.coordinates.longitude
+      ) {
+        try {
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${location.coordinates.latitude}&lon=${location.coordinates.longitude}&units=metric&appid=${API_KEY}`
+          );
+
+          weatherResults[location._id] = {
+            temperature: response.data.main.temp,
+            description: response.data.weather[0].description,
+            icon: response.data.weather[0].icon,
+          };
+        } catch (error) {
+          console.error(
+            `Error fetching weather for ${location.siteName}:`,
+            error
+          );
+        }
+      }
+    }
+
+    setWeatherData(weatherResults);
+  };
 
   // Loading state when no data is available
   if (!locationData || locationData.length === 0) {
@@ -51,14 +92,13 @@ const Locations = () => {
         </div>
 
         {/* Locations grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-6">
           {locationData.map((location) => (
             <div
               key={location._id}
               onClick={(e) => {
                 e.stopPropagation();
-                // console.log(location.siteName);
-                handleLocationClick(location.siteName); // ✅ Correct
+                handleLocationClick(location.siteName);
               }}
               className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300"
             >
@@ -72,6 +112,21 @@ const Locations = () => {
                     backgroundPosition: "center",
                   }}
                 >
+                  {/* Temperature display in the bottom right corner */}
+                  {weatherData[location._id] && (
+                    <div className="absolute bottom-3 right-3 bg-black/40 px-2 py-1 rounded flex items-center z-10">
+                      <div className="flex flex-col items-end">
+                        <span className="text-white flex justify-center items-center gap-1 font-medium">
+                          <Thermometer size={16} className="ml-1 text-white" />
+                          {Math.round(weatherData[location._id].temperature)}°C
+                        </span>
+                        <p className="text-[7px]  text-right text-white/70">
+                          from OpenWeather
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
                     <div className="p-3 text-white">
                       <div className="flex items-center">
@@ -79,7 +134,8 @@ const Locations = () => {
                         <span className="text-sm">{location.country}</span>
                       </div>
                       <h3 className="text-xl font-semibold">
-                        {location.siteName} <br />{location.location}
+                        {location.siteName} <br />
+                        {location.location}
                       </h3>
                     </div>
                   </div>
@@ -89,9 +145,7 @@ const Locations = () => {
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div className="flex items-center text-gray-600">
                     <Calendar size={14} className="mr-2 text-cyan-600" />
-                    {/* <span>Est: {location.established}</span> */}
                     <span>{new Date(location.established).getFullYear()}</span>
-                    {/* <h1>{location._id}</h1> */}
                   </div>
                   <div className="flex items-center text-gray-600">
                     <svg
@@ -106,8 +160,7 @@ const Locations = () => {
                         clipRule="evenodd"
                       />
                     </svg>
-                    {/* <span>{location.coordinates.altitude}</span> */}
-                    <span>{location.coordinates.altitude}</span>
+                    <span>{location.coordinates.altitude} m</span>
                   </div>
                   <div className="flex items-center text-gray-600">
                     <Droplet size={14} className="mr-2 text-cyan-600" />
