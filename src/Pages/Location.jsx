@@ -493,7 +493,7 @@ const LocationDetail = () => {
                         </button>
                       </div>
 
-                      {sensorStatuses.temperature && (
+                      {/* {sensorStatuses.temperature && (
                         <div className="mt-4 pt-4 border-t border-gray-100">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -520,7 +520,7 @@ const LocationDetail = () => {
                             </div>
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </div>
 
                     {/* Water Flow Sensor Control */}
@@ -549,7 +549,7 @@ const LocationDetail = () => {
                         </button>
                       </div>
 
-                      {sensorStatuses.waterFlow && (
+                      {/* {sensorStatuses.waterFlow && (
                         <div className="mt-4 pt-4 border-t border-gray-100">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -576,7 +576,7 @@ const LocationDetail = () => {
                             </div>
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </div>
 
                     {/* Solar Panel Sensor Control */}
